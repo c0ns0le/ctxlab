@@ -8,18 +8,28 @@ Update-ExecutionPolicy Unrestricted
 Set-StartScreenOptions -EnableBootToDesktop
 Enable-RemoteDesktop
 Disable-UAC
+
+#Install Chocolatey Applications
 cinst win-no-annoy
+cinst notepadplusplus
+cinst sysinternals
+
+# File association
+Install-ChocolateyFileAssociation ".txt" "$env:programfiles\Notepad++\notepad++.exe"
+
+# Taskbar items
+Install-ChocolateyPinnedTaskBarItem "$env:windir\explorer.exe"
+Install-ChocolateyPinnedTaskBarItem "$env:SystemRoot\system32\WindowsPowerShell\v1.0\powershell.exe"
+Install-ChocolateyPinnedTaskBarItem "$env:SystemRoot\system32\cmd.exe"
+Install-ChocolateyPinnedTaskBarItem "$env:programfiles\Notepad++\notepad++.exe"
 
 # Add Roles and Feature for Active Directory
-
 Add-WindowsFeature "RSAT-AD-Tools"
 Add-WindowsFeature -Name "ad-domain-services" -IncludeAllSubFeature -IncludeManagementTools
 Add-WindowsFeature -Name "dns" -IncludeAllSubFeature -IncludeManagementTools
 Add-WindowsFeature -Name "gpmc" -IncludeAllSubFeature -IncludeManagementTools
 Add-WindowsFeature -Name "rds-licensing"
 Add-WindowsFeature -Name "rds-licensing-ui"
-
-Invoke-Reboot
 
 Install-ADDSForest `
 -CreateDnsDelegation:$false `
@@ -33,20 +43,6 @@ Install-ADDSForest `
 -NoRebootOnCompletion:$true `
 -SysvolPath "C:\Windows\SYSVOL" `
 -Force:$true
-
-Invoke-Reboot
-
-cinst notepadplusplus
-cinst sysinternals
-
-# File association
-Install-ChocolateyFileAssociation ".txt" "$env:programfiles\Notepad++\notepad++.exe"
-
-# Taskbar items
-Install-ChocolateyPinnedTaskBarItem "$env:windir\explorer.exe"
-Install-ChocolateyPinnedTaskBarItem "$env:SystemRoot\system32\WindowsPowerShell\v1.0\powershell.exe"
-Install-ChocolateyPinnedTaskBarItem "$env:SystemRoot\system32\cmd.exe"
-Install-ChocolateyPinnedTaskBarItem "$env:programfiles\Notepad++\notepad++.exe"
 
 # Rename Computer
 Rename-Computer -NewName DC-01
