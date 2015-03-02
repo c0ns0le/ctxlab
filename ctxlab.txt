@@ -21,7 +21,7 @@ Install-ChocolateyFileAssociation ".txt" "$env:programfiles\Notepad++\notepad++.
 Install-ChocolateyPinnedTaskBarItem "$env:windir\explorer.exe"
 Install-ChocolateyPinnedTaskBarItem "$env:SystemRoot\system32\WindowsPowerShell\v1.0\powershell.exe"
 Install-ChocolateyPinnedTaskBarItem "$env:SystemRoot\system32\cmd.exe"
-Install-ChocolateyPinnedTaskBarItem "$env:programfiles(x86)\Notepad++\notepad++.exe"
+# Install-ChocolateyPinnedTaskBarItem "$env:programfiles(x86)\Notepad++\notepad++.exe"
 
 # Add Roles and Feature for Active Directory
 Add-WindowsFeature "RSAT-AD-Tools"
