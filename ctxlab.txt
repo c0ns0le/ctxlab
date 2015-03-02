@@ -5,17 +5,16 @@ $Boxstarter.AutoLogin=$true # Save my password securely and auto-login after a r
 
 # Basic Setup
 Update-ExecutionPolicy Unrestricted
-Set-ExplorerOptions -showProtectedOSFiles -showFileExtensions
 Set-StartScreenOptions -EnableBootToDesktop
 Enable-RemoteDesktop
-Disable-InternetExplorerESC
 Disable-UAC
+cinst win-no-annoy
 
 if (Test-PendingReboot) { Invoke-Reboot }
 
 # Rename Computer
-Rename-Computer -NewName DC-01 -Restart
-# if (Test-PendingReboot) { Invoke-Reboot }
+Rename-Computer -NewName DC-01
+Invoke-Reboot
 
 # Add Roles and Feature for Active Directory
 
@@ -39,7 +38,7 @@ Install-ADDSForest `
 -SysvolPath "C:\Windows\SYSVOL" `
 -Force:$true
 
-if (Test-PendingReboot) { Invoke-Reboot }
+Invoke-Reboot
 
 
 cinst notepadplusplus
