@@ -1,8 +1,23 @@
+# Boxstarter options
+$Boxstarter.RebootOk=$true # Allow reboots?
+$Boxstarter.NoPassword=$false # Is this a machine with no login password?
+$Boxstarter.AutoLogin=$true # Save my password securely and auto-login after a reboot
+
+# Basic Setup
+Update-ExecutionPolicy Unrestricted
 Set-ExplorerOptions -showProtectedOSFiles -showFileExtensions
 Set-StartScreenOptions -EnableBootToDesktop
 Enable-RemoteDesktop
+Disable-InternetExplorerESC
+Disable-UAC
 
-Rename-Computer -NewName DC-01 -Restart
+if (Test-PendingReboot) { Invoke-Reboot }
+
+# Rename Computer
+Rename-Computer -NewName DC-01
+if (Test-PendingReboot) { Invoke-Reboot }
+
+# Add Roles and Feature for Active Directory
 
 Add-WindowsFeature "RSAT-AD-Tools"
 Add-WindowsFeature -Name "ad-domain-services" -IncludeAllSubFeature -IncludeManagementTools
@@ -20,9 +35,12 @@ Install-ADDSForest `
 -ForestMode "Win2012R2" `
 -InstallDns:$true `
 -LogPath "C:\Windows\NTDS" `
--NoRebootOnCompletion:$false `
+-NoRebootOnCompletion:$true `
 -SysvolPath "C:\Windows\SYSVOL" `
 -Force:$true
+
+if (Test-PendingReboot) { Invoke-Reboot }
+
 
 cinst notepadplusplus
 cinst sysinternals
