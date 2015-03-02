@@ -2,13 +2,27 @@ Set-ExplorerOptions -showProtectedOSFiles -showFileExtensions
 Set-StartScreenOptions -EnableBootToDesktop
 Enable-RemoteDesktop
 
-cinst notepadplusplus
-cinst sysinternals
+Rename-Computer -NewName DC-01 -Restart
 
-Set-ExecutionPolicy bypass
 Add-WindowsFeature "RSAT-AD-Tools"
 Add-WindowsFeature -Name "ad-domain-services" -IncludeAllSubFeature -IncludeManagementTools
 Add-WindowsFeature -Name "dns" -IncludeAllSubFeature -IncludeManagementTools
 Add-WindowsFeature -Name "gpmc" -IncludeAllSubFeature -IncludeManagementTools
 Add-WindowsFeature -Name "rds-licensing"
 Add-WindowsFeature -Name "rds-licensing-ui"
+
+Install-ADDSForest `
+-CreateDnsDelegation:$false `
+-DatabasePath "C:\Windows\NTDS" `
+-DomainMode "Win2012R2" `
+-DomainName “ctxlab.local" `
+-DomainNetbiosName "ctxlab" `
+-ForestMode "Win2012R2" `
+-InstallDns:$true `
+-LogPath "C:\Windows\NTDS" `
+-NoRebootOnCompletion:$false `
+-SysvolPath "C:\Windows\SYSVOL" `
+-Force:$true
+
+cinst notepadplusplus
+cinst sysinternals
