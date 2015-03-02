@@ -14,8 +14,8 @@ Disable-UAC
 if (Test-PendingReboot) { Invoke-Reboot }
 
 # Rename Computer
-Rename-Computer -NewName DC-01
-if (Test-PendingReboot) { Invoke-Reboot }
+Rename-Computer -NewName DC-01 -Restart
+# if (Test-PendingReboot) { Invoke-Reboot }
 
 # Add Roles and Feature for Active Directory
 
@@ -44,3 +44,13 @@ if (Test-PendingReboot) { Invoke-Reboot }
 
 cinst notepadplusplus
 cinst sysinternals
+
+# File association
+Install-ChocolateyFileAssociation ".txt" "$env:programfiles\Notepad++\notepad++.exe"
+
+# Taskbar items
+Install-ChocolateyPinnedTaskBarItem "$env:windir\explorer.exe"
+Install-ChocolateyPinnedTaskBarItem "$env:SystemRoot\system32\WindowsPowerShell\v1.0\powershell.exe"
+Install-ChocolateyPinnedTaskBarItem "$env:SystemRoot\system32\cmd.exe"
+Install-ChocolateyPinnedTaskBarItem "$env:programfiles\Notepad++\notepad++.exe"
+
