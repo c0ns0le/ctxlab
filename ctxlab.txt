@@ -1,10 +1,14 @@
 Set-ExplorerOptions -showProtectedOSFiles -showFileExtensions
-
+Set-StartScreenOptions -EnableBootToDesktop
 Enable-RemoteDesktop
 
-cinst google-chrome-x64
-
 cinst notepadplusplus
-
 cinst sysinternals
 
+Set-ExecutionPolicy bypass
+Add-WindowsFeature "RSAT-AD-Tools"
+Add-WindowsFeature -Name "ad-domain-services" -IncludeAllSubFeature -IncludeManagementTools
+Add-WindowsFeature -Name "dns" -IncludeAllSubFeature -IncludeManagementTools
+Add-WindowsFeature -Name "gpmc" -IncludeAllSubFeature -IncludeManagementTools
+Add-WindowsFeature -Name "rds-licensing"
+Add-WindowsFeature -Name "rds-licensing-ui"
