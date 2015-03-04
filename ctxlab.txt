@@ -3,16 +3,16 @@ $Boxstarter.RebootOk=$true # Allow reboots?
 $Boxstarter.NoPassword=$false # Is this a machine with no login password?
 $Boxstarter.AutoLogin=$true # Save my password securely and auto-login after a reboot
 
+# Rename Computer
+Rename-Computer -NewName DC-01
+
+if (Test-PendingReboot) { Invoke-Reboot }
+
 # Basic Setup
 Update-ExecutionPolicy Unrestricted
 Set-StartScreenOptions -EnableBootToDesktop
 Enable-RemoteDesktop
 Disable-UAC
-
-if (Test-PendingReboot) { Invoke-Reboot }
-
-# Rename Computer
-Rename-Computer -NewName DC-01
 
 if (Test-PendingReboot) { Invoke-Reboot }
 
