@@ -22,7 +22,7 @@ Add-WindowsFeature -Name "gpmc" -IncludeAllSubFeature -IncludeManagementTools
 Add-WindowsFeature -Name "rds-licensing"
 Add-WindowsFeature -Name "rds-licensing-ui"
 
-Invoke-Reboot
+if (Test-PendingReboot) { Invoke-Reboot }
 
 Install-ADDSForest `
 -CreateDnsDelegation:$false `
