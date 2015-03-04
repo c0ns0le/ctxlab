@@ -3,16 +3,15 @@ $Boxstarter.RebootOk=$true # Allow reboots?
 $Boxstarter.NoPassword=$false # Is this a machine with no login password?
 $Boxstarter.AutoLogin=$true # Save my password securely and auto-login after a reboot
 
-# Rename Computer
-Rename-Computer -NewName DC-01
-
-if (Test-PendingReboot) { Invoke-Reboot }
-
 # Basic Setup
 Update-ExecutionPolicy Unrestricted
 Set-StartScreenOptions -EnableBootToDesktop
 Enable-RemoteDesktop
 Disable-UAC
+
+#Install Chocolatey Applications
+cinst win-no-annoy
+cinst notepadplusplus
 
 if (Test-PendingReboot) { Invoke-Reboot }
 
@@ -23,6 +22,8 @@ Add-WindowsFeature -Name "dns" -IncludeAllSubFeature -IncludeManagementTools
 Add-WindowsFeature -Name "gpmc" -IncludeAllSubFeature -IncludeManagementTools
 Add-WindowsFeature -Name "rds-licensing"
 Add-WindowsFeature -Name "rds-licensing-ui"
+
+Invoke-Reboot
 
 Install-ADDSForest `
 -CreateDnsDelegation:$false `
@@ -36,10 +37,6 @@ Install-ADDSForest `
 -NoRebootOnCompletion:$true `
 -SysvolPath "C:\Windows\SYSVOL" `
 -Force:$true
-
-#Install Chocolatey Applications
-cinst win-no-annoy
-cinst notepadplusplus
 
 # Taskbar items
 Install-ChocolateyPinnedTaskBarItem "$env:windir\explorer.exe"
