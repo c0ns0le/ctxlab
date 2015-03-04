@@ -9,18 +9,12 @@ Set-StartScreenOptions -EnableBootToDesktop
 Enable-RemoteDesktop
 Disable-UAC
 
-#Install Chocolatey Applications
-cinst win-no-annoy
-cinst notepadplusplus
+if (Test-PendingReboot) { Invoke-Reboot }
 
-# File association
-# Install-ChocolateyFileAssociation ".txt" "$env:programfiles(x86)\Notepad++\notepad++.exe"
+# Rename Computer
+Rename-Computer -NewName DC-01
 
-# Taskbar items
-Install-ChocolateyPinnedTaskBarItem "$env:windir\explorer.exe"
-Install-ChocolateyPinnedTaskBarItem "$env:SystemRoot\system32\WindowsPowerShell\v1.0\powershell.exe"
-Install-ChocolateyPinnedTaskBarItem "$env:SystemRoot\system32\cmd.exe"
-# Install-ChocolateyPinnedTaskBarItem "$env:programfiles(x86)\Notepad++\notepad++.exe"
+if (Test-PendingReboot) { Invoke-Reboot }
 
 # Add Roles and Feature for Active Directory
 Add-WindowsFeature "RSAT-AD-Tools"
@@ -43,8 +37,12 @@ Install-ADDSForest `
 -SysvolPath "C:\Windows\SYSVOL" `
 -Force:$true
 
-# Rename Computer
-Rename-Computer -NewName DC-01
-Invoke-Reboot
+#Install Chocolatey Applications
+cinst win-no-annoy
+cinst notepadplusplus
 
+# Taskbar items
+Install-ChocolateyPinnedTaskBarItem "$env:windir\explorer.exe"
+Install-ChocolateyPinnedTaskBarItem "$env:SystemRoot\system32\WindowsPowerShell\v1.0\powershell.exe"
+Install-ChocolateyPinnedTaskBarItem "$env:SystemRoot\system32\cmd.exe"
 
