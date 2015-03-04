@@ -5,7 +5,6 @@ $Boxstarter.AutoLogin=$true # Save my password securely and auto-login after a r
 
 # Basic Setup
 Update-ExecutionPolicy Unrestricted
-Set-StartScreenOptions -EnableBootToDesktop
 Enable-RemoteDesktop
 Disable-UAC
 
@@ -43,3 +42,4 @@ Install-ChocolateyPinnedTaskBarItem "$env:windir\explorer.exe"
 Install-ChocolateyPinnedTaskBarItem "$env:SystemRoot\system32\WindowsPowerShell\v1.0\powershell.exe"
 Install-ChocolateyPinnedTaskBarItem "$env:SystemRoot\system32\cmd.exe"
 
+Set-StartScreenOptions -EnableBootToDesktop
