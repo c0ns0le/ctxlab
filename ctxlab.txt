@@ -16,21 +16,6 @@ Add-WindowsFeature -Name "gpmc" -IncludeAllSubFeature -IncludeManagementTools
 Add-WindowsFeature -Name "rds-licensing"
 Add-WindowsFeature -Name "rds-licensing-ui"
 
-if (Test-PendingReboot) { Invoke-Reboot }
-
-Install-ADDSForest `
--CreateDnsDelegation:$false `
--DatabasePath "C:\Windows\NTDS" `
--DomainMode "Win2012R2" `
--DomainName "ctxlab.local" `
--DomainNetbiosName "ctxlab" `
--ForestMode "Win2012R2" `
--InstallDns:$true `
--LogPath "C:\Windows\NTDS" `
--NoRebootOnCompletion:$true `
--SysvolPath "C:\Windows\SYSVOL" `
--Force:$true
-
 # Taskbar items
 Install-ChocolateyPinnedTaskBarItem "$env:windir\explorer.exe"
 Install-ChocolateyPinnedTaskBarItem "$env:SystemRoot\system32\WindowsPowerShell\v1.0\powershell.exe"
